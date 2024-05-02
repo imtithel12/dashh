@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Chart</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCliSdfYda_I-CwHZnGoxgg7RtxagFCc98&callback=initMap"
+        async defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCliSdfYda_I-CwHZnGoxgg7RtxagFCc98"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ua-parser-js/0.7.28/ua-parser.min.js"></script>
+    <script src="node_modules/ua-parser-js/dist/ua-parser.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+
+    <style>
+        @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css');
+        @import url('https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js');
+        @import url('https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js');
+        @import url('https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css');
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        @import url('https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css');
+        @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.css');
+
+        a {
+            text-decoration: none;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'montserrat';
+            background-color: #ebd2e9;
+            background-size: 100% 633px;
+        }
+
+        .logo {
+            padding: 20px;
+            margin-left: 8%;
+            width: 80%;
+        }
+
+        .souslogo {
+            color: white;
+            width: 180px;
+            margin: 0 auto;
+        }
+
+        nav ul {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 230px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: #DA70D6;
+        }
+
+        nav ul li {
+            list-style: none;
+        }
+
+
+        nav ul li a {
+            display: block;
+            text-decoration: none;
+            text-transform: uppercase;
+            font-size: 15px;
+            color: white;
+            position: relative;
+            padding: 10px 0px 10px 25px;
+            transition: all 0.5s;
+        }
+
+        .activealways {
+            color: #160216;
+        }
+
+        .active {
+            color: #130112;
+            border-left: 10px solid #c90ac2;
+        }
+
+        nav ul li a:before {
+            color: black;
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            height: 100%;
+            background-color: #EDB9EB;
+            border-radius: 40px 0 0 40px;
+            z-index: -1;
+            transition: all 1s;
+        }
+
+        nav ul li a:hover {
+            color: white;
+        }
+
+        nav ul li a:hover:before {
+            width: 95%;
+        }
+
+        .section {
+            display: grid;
+            place-items: center;
+        }
+
+        ////////////////////////////////////////////////////////////////////////
+        .logo4 {}
+
+        .wrapper {
+            margin-left: 260px;
+        }
+
+        .profile {
+            color: black;
+        }
+
+        .profile:hover {
+            color: black;
+        }
+
+        .profileicon {
+            font-size: 300%;
+            color: black;
+        }
+
+        /////////////////////////////////////////////////////////////////////////////////////////////
+        #liste {}
+
+        #liste {
+            color: black;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        #recent {
+            color: rgb(88, 88, 88);
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .iconrecent {
+            font-size: 0.8em;
+        }
+
+        .notebook {
+            width: 50px;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .titre {
+            overflow: hidden;
+        }
+
+        .click {
+            width: 150px;
+            text-align: right;
+            overflow: hidden;
+        }
+
+        .param {
+            width: 23px;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        table {
+            background: white;
+            --border: 1px solid white;
+            border-radius: 10px;
+            border-collapse: separate;
+            border: var(--border);
+            table-layout: fixed;
+            width: 1050px;
+            height: 100px;
+        }
+
+        .btngo {
+            align-items: center;
+            background-color: white;
+            border: 1.5px solid rgb(156, 155, 155);
+            border-radius: 100px;
+            height: 40%;
+        }
+    </style>
+
+</head>
+
+<body>
+    <script>
+        document.addEventListener("DOMContentLoaded", function (event) {
+
+            const showNavbar = (toggleId, navId, bodyId, headerId) => {
+                const toggle = document.getElementById(toggleId),
+                    nav = document.getElementById(navId),
+                    bodypd = document.getElementById(bodyId),
+                    headerpd = document.getElementById(headerId)
+
+                // Validate that all variables exist
+                if (toggle && nav && bodypd && headerpd) {
+                    toggle.addEventListener('click', () => {
+                        // show navbar
+                        nav.classList.toggle('show')
+                        // change icon
+                        toggle.classList.toggle('bx-x')
+                        // add padding to body
+                        bodypd.classList.toggle('body-pd')
+                        // add padding to header
+                        headerpd.classList.toggle('body-pd')
+                    })
+                }
+            }
+
+            showNavbar('header-toggle', 'nav-bar', 'body-pd', 'header')
+
+            /*===== LINK ACTIVE =====*/
+            const linkColor = document.querySelectorAll('.nav_link')
+
+            function colorLink() {
+                if (linkColor) {
+                    linkColor.forEach(l => l.classList.remove('active'))
+                    this.classList.add('active')
+                }
+            }
+            linkColor.forEach(l => l.addEventListener('click', colorLink))
+
+            // Your code to run since DOM is loaded and ready
+        });
+    </script>
+
+    <nav>
+        <ul>
+            <a href="/">
+                <img class="logo" alt="drawing" src=".\img\logo3.png">
+            </a>
+            <hr class="souslogo">
+            <li><a href="/"><i class="fa fa-home"></i>&nbsp; Home</a></li>
+            <li><a href="/projets" class=" active activealways "><i class="fa fa-book"></i>&nbsp; Projets</a></li>
+            <li><a href="/addurl"><i class="fa fa-plus iconadd2"></i>&nbsp; Ajouter projet</a>
+            </li>
+
+
+            <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+            <div class="profile">
+                <a href="/profile" class="profile">
+                    &nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-user-circle-o profileicon"
+                        aria-hidden="true"></i>{{client.nom}}
+                    {{client.prenom}}
+                </a>
+            </div>
+        </ul>
+    </nav>
+
+    <div class="wrapper">
+        <div class="section">
+            <div class="box-area">
+                <div class="py-4">
+                    <p id="liste">Liste des projets</p>
+                    <br>
+                    <p id="recent">RECENT<i class="fa fa-clock-o iconrecent" aria-hidden="true"></i>
+                    </p>
+                    {{#if urlsToday.length}}
+                    {{#each urlsToday}}
+                    <div class=" d-flex">
+                        <table>
+                            <tr>
+                                <td class="notebook">
+                                    <img width="80%" src="./img/notebook.png">
+                                </td>
+                                <td class="titre">
+                                    <div id=" urltitreg">
+                                        <b>{{titre}}</b>
+                                    </div>
+
+                                    <div id="urltitre">
+                                        {{url}}
+                                    </div>
+                                </td>
+                                <td class="click">
+                                    <a href="/rapport?trackingId={{this.tracking_id}}" class=" ago">
+                                        <button type="submit" class=" btngo">
+
+                                            <i class="fa fa-newspaper-o btnvoir" aria-hidden="true"></i>
+                                            Voir Rapport
+                                        </button>
+                                    </a>
+                                </td>
+                                <td class="click">
+                                    <a href="/chart?trackingId={{this.tracking_id}}" class=" ago">
+                                        <button type="submit" class=" btngo">
+                                            <i class="fa fa-bar-chart btnvoir" aria-hidden="true"></i>
+                                            Voir Dashboard
+                                        </button>
+                                    </a>
+                                </td>
+                                <td class="param">
+                                    <a href="/">
+                                        <i class="fa fa-cog iconcog" aria-hidden="true"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <br>
+                </div>
+                {{/each}}
+                {{else}}
+                <p class="aucun">Aucun projet pour aujourd'hui.</p>
+                {{/if}}
+                <p id="recent">ALL
+                </p>
+                {{#each urls}}
+                <div class=" d-flex">
+                    <table>
+                        <tr>
+                            <td class="notebook">
+                                <img width="80%" src="./img/notebook.png">
+                            </td>
+                            <td class="titre">
+                                <div id=" urltitreg">
+                                    <b>{{titre}}</b>
+                                </div>
+
+                                <div id="urltitre">
+                                    {{url}}
+                                </div>
+                            </td>
+                            <td class="click">
+                                <a href="/rapport?trackingId={{this.tracking_id}}">
+                                    <button type="submit" class=" btngo">
+
+                                        <i class="fa fa-newspaper-o btnvoir" aria-hidden="true"></i>
+                                        Voir Rapport
+                                    </button>
+                                </a>
+                            </td>
+                            <td class="click">
+                                <a href="/chart?trackingId={{this.tracking_id}}">
+                                    <button type="submit" class=" btngo">
+                                        <i class="fa fa-bar-chart btnvoir" aria-hidden="true"></i>
+                                        Voir Dashboard
+                                    </button>
+                                </a>
+                            </td>
+                            <td class="param">
+                                <a href="/">
+                                    <i class="fa fa-cog iconcog" aria-hidden="true"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <br>
+
+                {{/each}}
+            </div>
+        </div>
+    </div>
+    <form action="/addUrl" method="GET">
+        <button type="submit" class=" btn btnbottom">
+            <i class="fa fa-plus iconadd2" aria-hidden="true"></i>
+            Ajouter projet
+        </button>
+    </form>
+    <br>
+    </div>
+    </div>
+    </div>
+    </div>
+</body>
+
+
+</html>

@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Chart</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCliSdfYda_I-CwHZnGoxgg7RtxagFCc98&callback=initMap"
+        async defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCliSdfYda_I-CwHZnGoxgg7RtxagFCc98"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ua-parser-js/0.7.28/ua-parser.min.js"></script>
+    <script src="node_modules/ua-parser-js/dist/ua-parser.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+
+    <style>
+        @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css');
+        @import url('https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js');
+        @import url('https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js');
+        @import url('https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css');
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        @import url('https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css');
+        @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.css');
+
+        a {
+            text-decoration: none;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'montserrat';
+            background: rgb(240, 239, 239);
+            background-attachment: fixed;
+            background-size: 100% 633px;
+        }
+
+        .logo {
+            padding: 20px;
+            margin-left: 8%;
+            width: 80%;
+        }
+
+        .souslogo {
+            color: white;
+            width: 180px;
+            margin: 0 auto;
+        }
+
+        nav ul {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 230px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: #DA70D6;
+        }
+
+        nav ul li {
+            list-style: none;
+        }
+
+
+        nav ul li a {
+            display: block;
+            text-decoration: none;
+            text-transform: uppercase;
+            font-size: 15px;
+            color: white;
+            position: relative;
+            padding: 10px 0px 10px 25px;
+            transition: all 0.5s;
+        }
+
+        nav ul li a::before {
+            color: black;
+            font-weight: bold;
+            content: '';
+            top: 0;
+            right: 0;
+            height: 100%;
+            background-color: white;
+            border-radius: 40px 0 0 40px;
+            z-index: -1;
+            transition: all 1s;
+        }
+
+        .activealways {
+            color: #160216;
+        }
+
+        .active {
+            color: #130112;
+            border-left: 10px solid #c90ac2;
+        }
+
+        nav ul li a:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            height: 100%;
+            background-color: white;
+            border-radius: 40px 0 0 40px;
+            z-index: -1;
+            transition: all 1s;
+        }
+
+        nav ul li a:hover {
+            color: #2b2626;
+        }
+
+        nav ul li a:hover:before {
+            width: 95%;
+        }
+
+        .section {
+            display: grid;
+            place-items: center;
+        }
+
+        ////////////////////////////////////////////////////////////////////////
+        .logo4 {}
+
+        .wrapper {
+            margin-left: 260px;
+        }
+
+        .profile {
+            color: black;
+        }
+
+        .profile:hover {
+            color: black;
+        }
+
+        .profileicon {
+            font-size: 300%;
+            color: black;
+        }
+
+        #liste {
+            color: rgb(88, 88, 88);
+            font-size: 15px;
+            font-weight: bold;
+            margin-left: 1%;
+            font-family: cursive;
+        }
+
+        .boxsummaryall {
+            background-color: transparent;
+            border-radius: 5px;
+            border: 1px solid transparent;
+            height: 600px;
+        }
+
+        .boxsummary1 {
+            background-color: white;
+            border-radius: 5px;
+            border: 1px solid rgb(218, 218, 218);
+            height: 425px;
+            width: 95%;
+            float: left;
+            margin-left: 1%;
+            padding: 2%;
+        }
+
+        .box {
+            background-color: white;
+            border-radius: 5px;
+            border: 1px solid rgb(218, 218, 218);
+            width: 23%;
+            padding: 2%;
+            font-family: cursive;
+            font-size: 15px;
+            color: rgb(71, 71, 71);
+            float: left;
+            margin-left: 1%;
+            margin-top: 1%;
+            text-align: center;
+        }
+
+        .box234 {
+            background-color: white;
+            border-radius: 5px;
+            border: 1px solid rgb(218, 218, 218);
+            width: 23%;
+            padding: 2%;
+            font-family: cursive;
+            font-size: 15px;
+            color: rgb(71, 71, 71);
+            float: left;
+            margin-left: 1%;
+            margin-top: 1%;
+            text-align: center;
+        }
+
+        .boxhoursdayall {
+            background-color: transparent;
+            border-radius: 5px;
+            border: 1px solid transparent;
+            height: 600px;
+            margin-left: 1%;
+        }
+
+        .boxhoursday1 {
+            background-color: white;
+            border-radius: 5px;
+            border: 1px solid rgb(218, 218, 218);
+            height: 550px;
+            margin-left: 1%;
+            margin-right: 3%;
+            padding: 2%;
+        }
+
+        .iconbox {
+            font-size: 25px;
+            color: rgb(71, 71, 71);
+        }
+
+        .box5hours {
+            width: 50%;
+            padding: 2%;
+            font-family: cursive;
+            font-size: 15px;
+            color: rgb(71, 71, 71);
+            float: left;
+        }
+
+        .box5hoursall {
+            background-color: white;
+            border-radius: 5px;
+            border: 1px solid rgb(218, 218, 218);
+            margin-left: 1%;
+            margin-right: 1%;
+            margin-top: 1%;
+            padding: 2%;
+            font-family: cursive;
+            font-size: 15px;
+            color: rgb(71, 71, 71);
+
+            height: 350px;
+        }
+
+        #trafficChart1 {
+            float: left;
+            margin: 1%;
+        }
+
+        .visitors {
+            background-color: white;
+            border-radius: 5px;
+            border: 1px solid rgb(218, 218, 218);
+        }
+
+        .visitorscercle {
+            background-color: white;
+            border-radius: 5px;
+            border: 1px solid rgb(218, 218, 218);
+            width: 50%;
+            font-family: cursive;
+            font-size: 15px;
+            color: gray;
+            float: left;
+            margin-left: 3%;
+            margin-top: 1%;
+
+        }
+
+        .num {
+            text-align: center;
+            font-size: 40px;
+            font-family: cursive;
+            color: rgb(71, 71, 71);
+        }
+
+        .nav_link.active {
+            color: black;
+            /* Couleur lorsque le lien est actif */
+        }
+
+        .url {
+            text-align: left;
+            color: #eb8eeb;
+            font-family: cursive;
+        }
+
+        #trafficTable {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        #trafficTable th,
+        #trafficTable td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        #trafficTable th {
+            background-color: white;
+        }
+
+        #trafficTable tbody tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        #trafficTable tbody tr:hover {
+            background-color: #ddd;
+        }
+
+        /* width */
+        #chart-containerr {
+            height: 100px;
+            overflow-y: scroll;
+        }
+
+        .box1 {
+            border-bottom: 3px solid rgba(255, 206, 86, 1)
+        }
+
+        .box2 {
+            border-bottom: 3px solid rgb(35, 236, 9);
+        }
+
+        .box3 {
+            border-bottom: 3px solid rgba(255, 99, 132, 1);
+        }
+
+        .box4 {
+            border-bottom: 3px solid rgba(54, 162, 235, 1);
+        }
+    </style>
+
+</head>
+
+<body>
+    {{!--
+    <script>
+        document.addEventListener("DOMContentLoaded", function (event) {
+
+            const showNavbar = (toggleId, navId, bodyId, headerId) => {
+                const toggle = document.getElementById(toggleId),
+                    nav = document.getElementById(navId),
+                    bodypd = document.getElementById(bodyId),
+                    headerpd = document.getElementById(headerId)
+
+                // Validate that all variables exist
+                if (toggle && nav && bodypd && headerpd) {
+                    toggle.addEventListener('click', () => {
+                        // show navbar
+                        nav.classList.toggle('show')
+                        // change icon
+                        toggle.classList.toggle('bx-x')
+                        // add padding to body
+                        bodypd.classList.toggle('body-pd')
+                        // add padding to header
+                        headerpd.classList.toggle('body-pd')
+                    })
+                }
+            }
+
+            showNavbar('header-toggle', 'nav-bar', 'body-pd', 'header')
+
+            /*===== LINK ACTIVE =====*/
+            const linkColor = document.querySelectorAll('.nav_link')
+
+            function colorLink() {
+                if (linkColor) {
+                    linkColor.forEach(l => l.classList.remove('active'))
+                    this.classList.add('active')
+                }
+            }
+            linkColor.forEach(l => l.addEventListener('click', colorLink))
+
+            // Your code to run since DOM is loaded and ready
+        });
+    </script> --}}
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function (event) {
+            const showNavbar = (toggleId, navId, bodyId, headerId) => {
+                const toggle = document.getElementById(toggleId),
+                    nav = document.getElementById(navId),
+                    bodypd = document.getElementById(bodyId),
+                    headerpd = document.getElementById(headerId)
+
+                // Validate that all variables exist
+                if (toggle && nav && bodypd && headerpd) {
+                    toggle.addEventListener('click', () => {
+                        // show navbar
+                        nav.classList.toggle('show')
+                        // change icon
+                        toggle.classList.toggle('bx-x')
+                        // add padding to body
+                        bodypd.classList.toggle('body-pd')
+                        // add padding to header
+                        headerpd.classList.toggle('body-pd')
+                    })
+                }
+            }
+
+            showNavbar('header-toggle', 'nav-bar', 'body-pd', 'header')
+
+            /*===== LINK ACTIVE =====*/
+            const linkColor = document.querySelectorAll('.nav_link')
+
+            function colorLink() {
+                if (linkColor) {
+                    linkColor.forEach(l => l.classList.remove('active'))
+                    this.classList.add('active')
+                }
+            }
+            linkColor.forEach(l => l.addEventListener('click', colorLink))
+
+            // Function to change link color on scroll
+            function changeColorOnScroll() {
+                const divs = document.querySelectorAll('div[id^="div"]');
+                const scrollPosition = window.scrollY + window.innerHeight / 2;
+
+                divs.forEach(div => {
+                    if (scrollPosition >= div.offsetTop && scrollPosition < div.offsetTop + div.offsetHeight) {
+                        linkColor.forEach(l => l.classList.remove('active'));
+                        const correspondingLink = document.querySelector(`.nav_link[href="#${div.id}"]`);
+                        if (correspondingLink) {
+                            correspondingLink.classList.add('active');
+                        }
+                    }
+                });
+            }
+
+            // Attach scroll event listener to change link color
+            window.addEventListener('scroll', changeColorOnScroll);
+
+            // Call the function initially to set the link color on page load
+            changeColorOnScroll();
+
+            // Function to handle link clicks
+            function handleLinkClick(event) {
+                event.preventDefault(); // Prevent default link behavior
+
+                const targetId = this.getAttribute('href').substring(1); // Get target div id
+                const targetDiv = document.getElementById(targetId); // Get target div
+                const offsetTop = targetDiv.offsetTop; // Get offset top of target div
+
+                // Scroll to target div smoothly
+                window.scrollTo({
+                    top: offsetTop,
+                    behavior: 'smooth'
+                });
+
+                // Change link color when clicked
+                linkColor.forEach(l => l.classList.remove('active'));
+                this.classList.add('active');
+            }
+
+            // Attach click event listener to links
+            linkColor.forEach(l => l.addEventListener('click', handleLinkClick));
+
+            // Function to restore original color when leaving divs
+            function restoreOriginalColor() {
+                const currentScroll = window.scrollY + window.innerHeight / 2;
+                const divs = document.querySelectorAll('div[id^="div"]');
+
+                divs.forEach(div => {
+                    if (currentScroll < div.offsetTop || currentScroll >= div.offsetTop + div.offsetHeight) {
+                        const correspondingLink = document.querySelector(`.nav_link[href="#${div.id}"]`);
+                        if (correspondingLink) {
+                            correspondingLink.classList.remove('active');
+                        }
+                    }
+                });
+            }
+
+            // Attach scroll event listener to restore original color
+            window.addEventListener('scroll', restoreOriginalColor);
+        });
+    </script>
+
+    <nav>
+        <ul>
+            <a href="/">
+                <img class="logo" alt="drawing" src=".\img\logo3.png">
+            </a>
+            <hr class="souslogo">
+            <li><a href="/"><i class="fa fa-home"></i>&nbsp; Home</a></li>
+            <li><a href="/projets"><i class="fa fa-arrow-left" aria-hidden="true"></i>&nbsp; Projets</a></li>
+            <li><a href="" class=" activealways "><i class="fa fa-book"></i>&nbsp; Rapport:</a></li>
+            <li><a href="#div1" class=" nav_link active sous ">&nbsp;&nbsp;<i class="fa fa-file-text"
+                        aria-hidden="true"></i>&nbsp;&nbsp;Quotidienne</a>
+            </li>
+            <li><a href="#div2" class=" nav_link sous linkToDiv">&nbsp;&nbsp;<i class="fa fa-file-text"
+                        aria-hidden="true"></i>&nbsp;&nbsp;Hebdomadaire</a>
+            </li>
+            <li><a href="#div" class=" nav_link sous linkToDiv">&nbsp;&nbsp;<i class="fa fa-file-text"
+                        aria-hidden="true"></i>&nbsp;&nbsp;Mensuelle</a>
+            </li>
+            <li><a href="#div" class=" nav_link sous linkToDiv">&nbsp;&nbsp;<i class="fa fa-file-text"
+                        aria-hidden="true"></i>&nbsp;&nbsp;Annuelle</a>
+            </li>
+            <br><br><br><br><br><br><br><br>
+            <div class="profile">
+                <a href="/profile" class="profile">
+                    &nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-user-circle-o profileicon" aria-hidden="true"></i>{{
+                    client.nom
+                    }}
+                    {{ client.prenom }}
+                </a>
+            </div>
+        </ul>
+    </nav>
+    <div class="wrapper">
+        {{#each urls}}
+        <h5 class="url"><strong>{{titre}}:</strong></h5>
+        <h6><i class="fa fa-angle-right"></i><i class="fa fa-angle-right"></i> {{url}}</h6>
+        {{/each}}
+        <div class="section">
+            <div class="box-area" id="div1">
+                <div class="boxsummaryall">
+                    <style>
+                        /* Style pour le select */
+                        select[name="months1"] {
+                            width: 200px;
+                            padding: 8px;
+                            border: 1px solid #ccc;
+                            border-radius: 5px;
+                            font-size: 16px;
+                        }
+                    </style>
+                    <div class="boxsummary1">
+                        <p id="liste">Utilisateurs et Site Web Traffic</p>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <select name="months1" id="months1">
+                            {{#each months}}
+                            <option value="{{this.value}}" {{#if this.selected}}selected{{/if}}>
+                                {{this.name}}
+                            </option>
+                            {{/each}}
+                        </select>
+                        <div class="boxsummary">
+                            <canvas id="trafficChart11" width="600" height="200"></canvas>
+                        </div>
+
+                        <script>
+                            function convertSecondsToHMS_Months(seconds) {
+                                const hours = Math.floor(seconds / 3600);
+                                const minutes = Math.floor((seconds % 3600) / 60);
+                                const remainingSeconds = seconds % 60;
+
+                                return `${hours}h ${minutes}m ${remainingSeconds}s`;
+                            }
+
+                            function fetchChart11Data_Months(month) {
+                                const urlParams = new URLSearchParams(window.location.search);
+                                const trackingId = urlParams.get('trackingId');
+                                const currentYear = new Date().getFullYear();
+
+                                if (!trackingId) {
+                                    console.error('Aucun tracking_id trouvé dans l\'URL.');
+                                    return;
+                                }
+
+                                // Effectuer la requête avec les paramètres du mois sélectionné
+                                fetch(`/chart1?trackingId=${trackingId}&month=${month}&year=${currentYear}`)
+                                    .then(response => response.json())
+                                    .then(data => {
+                                        // Récupérer les libellés à partir des données du serveur
+                                        const labels = data.map(item => item.full_date);
+                                        const totalUserAgentsData = data.map(item => item.unique_userAgent);
+                                        const uniquePagesVisitedData = data.map(item => item.unique_pages_visited);
+                                        const visitsData = data.map(item => item.count);
+                                        const durationInSecondsData = data.map(item => item.duration_in_seconds);
+                                        const durationData = data.map(item => item.duration);
+
+                                        // Mettre à jour le graphique avec les nouvelles données
+                                        const ctx = document.getElementById('trafficChart11').getContext('2d');
+                                        if (window.myChart_Months !== undefined) {
+                                            window.myChart_Months.destroy(); // Détruire le graphique existant pour le reconstruire avec les nouvelles données
+                                        }
+                                        window.myChart_Months = new Chart(ctx, {
+                                            type: 'line',
+                                            data: {
+                                                labels: labels,
+                                                datasets: [{
+                                                    label: 'Utilisateurs',
+                                                    data: totalUserAgentsData,
+                                                    borderColor: 'rgba(255, 206, 86, 1)',
+                                                    borderWidth: 1,
+                                                    fill: true,
+                                                    tension: 0.4
+                                                }, {
+                                                    label: 'Pages Visitées',
+                                                    data: uniquePagesVisitedData,
+                                                    borderColor: 'rgb(35, 236, 9)',
+                                                    borderWidth: 1,
+                                                    fill: true,
+                                                    tension: 0.4
+                                                }, {
+                                                    label: 'Séances',
+                                                    data: visitsData,
+                                                    backgroundColor: 'rgba(255, 255, 255, 0.445)',
+                                                    borderColor: 'rgba(255, 99, 132, 1)',
+                                                    borderWidth: 1,
+                                                    fill: true,
+                                                    tension: 0.4,
+                                                }, {
+                                                    label: 'Durée (seconds)',
+                                                    data: durationInSecondsData,
+                                                    backgroundColor: 'rgba(255, 255, 255, 0.445)',
+                                                    borderColor: 'rgba(54, 162, 235, 1)',
+                                                    borderWidth: 1,
+                                                    fill: true,
+                                                    tension: 0.4
+                                                }]
+                                            },
+                                            options: {
+                                                scales: {
+                                                    y: {
+                                                        beginAtZero: true
+                                                    }
+                                                }
+                                            }
+                                        });
+
+                                        const totalCount1 = totalUserAgentsData.reduce((acc, curr) => acc + curr, 0);
+                                        document.getElementById('totalCount1').innerText = totalCount1;
+
+                                        const totalCount2 = uniquePagesVisitedData.reduce((acc, curr) => acc + curr, 0);
+                                        document.getElementById('totalCount2').innerText = totalCount2;
+
+                                        const totalCount3 = visitsData.reduce((acc, curr) => acc + curr, 0);
+                                        document.getElementById('totalCount3').innerText = totalCount3;
+
+                                        const totalCountInSeconds = durationData.reduce((acc, curr) => acc + curr, 0);
+                                        const formattedTotalDuration = convertSecondsToHMS_Months(totalCountInSeconds);
+                                        document.getElementById('totalCount4').innerText = formattedTotalDuration;
+
+                                    })
+                                    .catch(error => {
+                                        console.error('Une erreur s\'est produite:', error);
+                                        // Ajouter un message d'erreur à l'utilisateur
+                                        document.getElementById('error-message').innerText = "Une erreur s'est produite lors du chargement des données.";
+                                    });
+                            }
+
+                            function createGradient(ctx, colors) {
+                                const gradient = ctx.createLinearGradient(0, 0, 0, 400);
+                                gradient.addColorStop(0, colors[0]);
+                                gradient.addColorStop(0.5, colors[1]);
+                                gradient.addColorStop(1, colors[2]);
+                                return gradient;
+                            }
+
+
+
+                            document.addEventListener('DOMContentLoaded', () => {
+                                // Récupérer la valeur initiale du mois
+                                const selected = document.getElementById('months1').value;
+                                fetchChart11Data_Months(selected);
+
+                                // Gestionnaire d'événements pour le changement de mois sélectionné
+                                document.getElementById('months1').addEventListener('change', (event) => {
+                                    const selected = event.target.value;
+                                    fetchChart11Data_Months(selected);
+                                });
+                            });
+
+                        </script>
+                    </div>
+                    <div class="box box1">
+                        Utilisateurs Totales: <br><span class="num" id="totalCount1"></span>
+                    </div>
+                    <div class="box box2">
+                        Pages Visitées Totales: <br><span class="num" id="totalCount2"></span>
+                    </div>
+                    <div class="box box3">
+                        Séances Totales: <br><span class="num" id="totalCount3"></span>
+                    </div>
+                    <div class="box box4">
+                        Durée Sessions Totales: <br><span class="num" id="totalCount4"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="wrapper" id="div2">
+        <div class="boxhoursdayall">
+            <p id="liste">Par Jour</p>
+            <div class="boxhoursday1">
+                <div id="date-selectors">
+                    <label for="dayi1">Jour :</label>
+                    <select id="dayi1"></select>
+                    <label for="monthi1">Mois :</label>
+                    <select id="monthi1"></select>
+                    <label for="yeari1">Année :</label>
+                    <select id="yeari1"></select>
+                </div>
+                <div id="chart-container">
+                    <canvas id="trafficChart41" width="600" height="200"></canvas>
+                </div>
+                <script>
+                    document.addEventListener('DOMContentLoaded', () => {
+                        const currentDate = new Date();
+                        const currentDay = currentDate.getDate();
+                        const currentMonth = currentDate.getMonth() + 1; // getMonth() returns 0-indexed months
+                        const currentYear = currentDate.getFullYear();
+
+                        // Remplir les sélecteurs de date avec les options appropriées
+                        populateSelect('dayi1', 1, 31, currentDay);
+                        populateSelect('monthi1', 1, 12, currentMonth);
+                        populateSelect('yeari1', 2020, 2030, currentYear);
+
+                        // Ajouter des écouteurs d'événements change aux sélecteurs de date
+                        document.getElementById('dayi1').addEventListener('change', fetchChart4Data);
+                        document.getElementById('monthi1').addEventListener('change', fetchChart4Data);
+                        document.getElementById('yeari1').addEventListener('change', fetchChart4Data);
+
+                        // Afficher les données du jour actuel au chargement de la page
+                        fetchChart4Data();
+                    });
+
+                    function fetchChart4Data() {
+                        const urlParams = new URLSearchParams(window.location.search);
+                        const trackingId = urlParams.get('trackingId');
+
+                        if (!trackingId) {
+                            console.error('Aucun tracking_id trouvé dans l\'URL.');
+                            return;
+                        }
+
+                        const selectedDay = document.getElementById('dayi1').value;
+                        const selectedMonth = document.getElementById('monthi1').value;
+                        const selectedYear = document.getElementById('yeari1').value;
+
+                        const labels = [];
+                        for (let hour = 0; hour < 24; hour++) {
+                            labels.push(`${hour}:00`);
+                        }
+
+                        fetch(`/chart4?trackingId=${trackingId}&dayi=${selectedDay}&monthi=${selectedMonth}&yeari=${selectedYear}`)
+                            .then(response => response.json())
+                            .then(data => {
+                                // Initialiser les tableaux de données
+                                const visitsData = new Array(24).fill(0);
+                                const uniquePagesVisitedData = new Array(24).fill(0);
+                                const durationInSecondsData = new Array(24).fill(0);
+                                const totalUserAgentsData = new Array(24).fill(0);
+                                const totalNewUserAgentsData = new Array(24).fill(0);
+
+                                data.forEach(item => {
+                                    const hour = item.hour_of_day;
+                                    visitsData[hour] += item.count;
+                                    uniquePagesVisitedData[hour] += item.unique_pages_visited;
+                                    durationInSecondsData[hour] += item.duration_in_seconds;
+                                    totalUserAgentsData[hour] += item.unique_userAgent;
+                                    totalNewUserAgentsData[hour] += item.new_userAgents_today;
+                                });
+
+                                // Récupérer le graphique existant ou créer un nouveau
+                                const ctx = document.getElementById('trafficChart41').getContext('2d');
+                                if (window.myChart !== undefined) {
+                                    window.myChart.destroy(); // Détruire le graphique existant pour le reconstruire avec les nouvelles données
+                                }
+                                window.myChart = new Chart(ctx, {
+                                    type: 'bar',
+                                    data: {
+                                        labels: labels,
+                                        datasets: [{
+                                            label: 'Utilisateurs',
+                                            data: totalUserAgentsData,
+                                            backgroundColor: 'rgba(255, 206, 86, 0.2)',
+                                            borderColor: 'rgba(255, 206, 86, 1)',
+                                            borderWidth: 1,
+                                            fill: false,
+                                            tension: 0.4
+                                        }, {
+                                            label: 'Pages Visitées',
+                                            data: uniquePagesVisitedData,
+                                            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                                            borderColor: 'rgba(54, 162, 235, 1)',
+                                            borderWidth: 1,
+                                            fill: false,
+                                            tension: 0.4
+                                        }, {
+                                            label: 'Séances',
+                                            data: visitsData,
+                                            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                                            borderColor: 'rgba(255, 99, 132, 1)',
+                                            borderWidth: 1,
+                                            fill: false,
+                                            tension: 0.4,
+                                        }, {
+                                            label: 'Durée (seconds)',
+                                            data: durationInSecondsData,
+                                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                                            borderColor: 'rgba(75, 192, 192, 1)',
+                                            borderWidth: 1,
+                                            fill: false,
+                                            tension: 0.4
+                                        }]
+                                    },
+                                    options: {
+                                        scales: {
+                                            y: {
+                                                beginAtZero: true
+                                            }
+                                        }
+                                    }
+                                });
+                            })
+                            .catch(error => {
+                                console.error('Une erreur s\'est produite lors de la récupération des données:', error);
+                            });
+                    }
+
+                    function populateSelect(id, start, end, selected) {
+                        const select = document.getElementById(id);
+                        select.innerHTML = '';
+                        for (let i = start; i <= end; i++) {
+                            const option = document.createElement('option');
+                            option.value = i;
+                            option.textContent = i;
+                            if (i === selected) {
+                                option.selected = true;
+                            }
+                            select.appendChild(option);
+                        }
+                    }
+                </script>
+                <div id="chart-containerr">
+                    <table id="trafficTable">
+                        <thead>
+                            <tr>
+                                <th>Heure</th>
+                                <th>Utilisateurs</th>
+                                <th>Pages Visitées</th>
+                                <th>Séances</th>
+                                <th>Durée (seconds)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Les données seront insérées ici par JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+                <script>
+                    document.addEventListener('DOMContentLoaded', () => {
+                        const currentDate = new Date();
+                        const currentDay = currentDate.getDate();
+                        const currentMonth = currentDate.getMonth() + 1; // getMonth() returns 0-indexed months
+                        const currentYear = currentDate.getFullYear();
+
+                        // Remplir les sélecteurs de date avec les options appropriées
+                        populateSelect('dayi1', 1, 31, currentDay);
+                        populateSelect('monthi1', 1, 12, currentMonth);
+                        populateSelect('yeari1', 2020, 2030, currentYear);
+
+                        // Ajouter des écouteurs d'événements change aux sélecteurs de date
+                        document.getElementById('dayi1').addEventListener('change', fetchChart14Data);
+                        document.getElementById('monthi1').addEventListener('change', fetchChart14Data);
+                        document.getElementById('yeari1').addEventListener('change', fetchChart14Data);
+
+                        // Afficher les données du jour actuel au chargement de la page
+                        fetchChart14Data();
+                    });
+
+                    function fetchChart14Data() {
+                        const urlParams = new URLSearchParams(window.location.search);
+                        const trackingId = urlParams.get('trackingId');
+
+                        if (!trackingId) {
+                            console.error('Aucun tracking_id trouvé dans l\'URL.');
+                            return;
+                        }
+
+                        const selectedDay = document.getElementById('dayi1').value;
+                        const selectedMonth = document.getElementById('monthi1').value;
+                        const selectedYear = document.getElementById('yeari1').value;
+
+                        fetch(`/chart4?trackingId=${trackingId}&dayi=${selectedDay}&monthi=${selectedMonth}&yeari=${selectedYear}`)
+                            .then(response => response.json())
+                            .then(data => {
+                                const tableBody = document.getElementById('trafficTable').querySelector('tbody');
+                                tableBody.innerHTML = ''; // Effacer le contenu précédent du tableau
+
+                                data.forEach(item => {
+                                    const row = document.createElement('tr');
+                                    row.innerHTML = `
+                        <td>${item.hour_of_day}:00</td>
+                        <td>${item.unique_userAgent}</td>
+                        <td>${item.unique_pages_visited}</td>
+                        <td>${item.count}</td>
+                        <td>${item.duration_in_seconds}</td>
+                    `;
+                                    tableBody.appendChild(row);
+                                });
+                            })
+                            .catch(error => {
+                                console.error('Une erreur s\'est produite lors de la récupération des données:', error);
+                            });
+                    }
+
+                    function populateSelect(id, start, end, selected) {
+                        const select = document.getElementById(id);
+                        select.innerHTML = '';
+                        for (let i = start; i <= end; i++) {
+                            const option = document.createElement('option');
+                            option.value = i;
+                            option.textContent = i;
+                            if (i === selected) {
+                                option.selected = true;
+                            }
+                            select.appendChild(option);
+                        }
+                    }
+                </script>
+
+            </div>
+        </div>
+    </div>
+
+
+
+</body>
+
+
+</html>
